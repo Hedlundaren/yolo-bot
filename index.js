@@ -14,7 +14,7 @@ app.get('/', function(req, res){
     res.send("Hi I am a chatbot")
 })
 
-token = "EAAbqignfEwoBAByuzb8lqhRlZCjqmKZBhr7FjSMDPcK9DZBU9xHAR1IXcZA47ehTG0t2849WRBjh1DTL026rNQ1rZCIDgavqC280vEtHrg1ZBq6dRgtDSQc8CIbwGMOAoZBBh90ZAZBmkyT3Y9lISFV1OT66t2fSZAlj1SGuZBAOhUSkAZDZD"
+let token = "EAAbqignfEwoBAByuzb8lqhRlZCjqmKZBhr7FjSMDPcK9DZBU9xHAR1IXcZA47ehTG0t2849WRBjh1DTL026rNQ1rZCIDgavqC280vEtHrg1ZBq6dRgtDSQc8CIbwGMOAoZBBh90ZAZBmkyT3Y9lISFV1OT66t2fSZAlj1SGuZBAOhUSkAZDZD"
 
 // Facebook
 app.get('/webhook/', function(req, res){
@@ -26,7 +26,7 @@ app.get('/webhook/', function(req, res){
 
 
 app.post('/webhook/', function(){
-    let messaging_events = req.body.entry[0].messaging_events
+    let messaging_events = req.body.entry[0].messaging
     for(let i = 0; i < messaging_events.length; i++){
         let event = messaging_events[i]
         let sender = event.sender.id
@@ -42,10 +42,10 @@ function sendText(sender, text){
     let messageData = {text: text}
     request({
         url: "https://yolo-bot.herokuapp.com/",
-        qs: {access_token, token},
+        qs: {access_token : token},
         method: "POST",
         json: {
-            receipt: {id: sender},
+            recipient: {id: sender},
             message: messageData
         }
 
