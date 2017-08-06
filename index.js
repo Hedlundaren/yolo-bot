@@ -34,7 +34,7 @@ app.post('/webhook/', function(req, res){
         let sender = event.sender.id
         if(event.message && event.message.text){
             let text = event.message.text
-            sendText(sender, "Text echo: " + text.substring(0, 100))
+            sendText(sender, "Text echo: " + sender.substring(0, 100))
         }
     }
     res.sendStatus(200)
@@ -48,7 +48,7 @@ function sendText(sender, text){
         method: "POST",
         json: {
             recipient: {id: sender},
-            message: sender
+            message: messageData
         }
     }, function(error, response, body){
         if(error){
