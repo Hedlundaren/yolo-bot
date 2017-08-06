@@ -31,33 +31,30 @@ app.get('/webhook/', function(req, res){
 // Get user info
 function getSenderInfo(sender_id){
 
-    let str = ''
-    let options = {
-        host: 'https://graph.facebook.com',
-        path: '/' + sender_id + '?access_token=' + token
-    }
+    // let str = ''
+    // let options = {
+    //     host: 'https://graph.facebook.com',
+    //     path: '/' + sender_id + '?access_token=' + token
+    // }
+    //
+    // let callback = function(response) {
+    //
+    //     response.on('data', function (chunk) {
+    //         str += chunk
+    //     })
+    //
+    //     response.on('end', function () {
+    //         console.log(req.data)
+    //         console.log(str)
+    //         //return str
+    //     })
 
-    let callback = function(response) {
+    //}
 
-        response.on('data', function (chunk) {
-            str += chunk
-        })
-
-        response.on('end', function () {
-            console.log(req.data)
-            console.log(str)
-            //return str
-        })
-
-        return "Bajs"
-    }
-
-    let req = http.request(options, callback).end()
-
-   // return callback
+    //let req = http.request(options, callback).end()
     // console.log(req.data);
     // console.log(str);
-
+    return sender_id
 }
 
 // Handling incoming messages
