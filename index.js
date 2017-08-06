@@ -17,8 +17,7 @@ app.get('/', function(req, res){
     res.send("Hi I am a chatbot")
 })
 
-//let token = "EAAbqignfEwoBAByuzb8lqhRlZCjqmKZBhr7FjSMDPcK9DZBU9xHAR1IXcZA47ehTG0t2849WRBjh1DTL026rNQ1rZCIDgavqC280vEtHrg1ZBq6dRgtDSQc8CIbwGMOAoZBBh90ZAZBmkyT3Y9lISFV1OT66t2fSZAlj1SGuZBAOhUSkAZDZD"
-let token = "EAAbqignfEwoBAKgmfV5aIjnnhKNjXFzGQnK2lHJn69u6AoIgAjp65ZC8HYCsHTkpllK5oZCAMVsZBNzowiy5ZBowpN3mXPERnrBoI0gpuDCO2AggN1RrIB3QJVzHE9kKrsHskJSRx0ZA8sjPS60MVZAZAnsjzrmnX22FEPYh4Aw7gZDZD"
+let token = "EAAbqignfEwoBABzHXXS2GtsYwdf1vKXVg7Rbin0ycwg7N4eAsSllEeBETKsH50KjtZBWAXjvpmXhM9dOCkSMxsHTYM8V6cuKoPgQIOQDqsnXijfivqWejpP9wDskcZBZBeIsEX8B9vpvaFe1wtadWLhzM9kXTCpkarYPUe74QZDZD"
 // Facebook
 app.get('/webhook/', function(req, res){
     if(req.query['hub.verify_token'] === "yoloswag"){
