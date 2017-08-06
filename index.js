@@ -31,20 +31,32 @@ app.get('/webhook/', function(req, res){
 // Get user info
 function getSenderInfo(sender_id){
 
+    let str = ''
+    let options = {
+        host: 'https://graph.facebook.com',
+        path: '/' + sender_id + '?access_token=' + token
+    }
 
-    //     app.get('https://graph.facebook.com/' + sender_id + "?access_token=" + token, function(req, res){
-    //         console.log("res: " + res);
-    //         console.log("req: " + req);
-    // })
+    let callback = function(response) {
 
-    http.get({
-        hostname: 'https://graph.facebook.com/' + sender_id + "?access_token=" + token,
-        port: 80,
-        path: '/',
-        agent: false  // create a new agent just for this one request
-    }, (res) => {
-        return res;
-    });
+        response.on('data', function (chunk) {
+            str += chunk
+        })
+
+        response.on('end', function () {
+            console.log(req.data)
+            console.log(str)
+            //return str
+        })
+
+        return "Bajs"
+    }
+
+    let req = http.request(options, callback).end()
+
+   // return callback
+    // console.log(req.data);
+    // console.log(str);
 
 }
 
