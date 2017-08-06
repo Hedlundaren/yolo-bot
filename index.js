@@ -3,7 +3,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
-
 const app = express()
 
 app.set('port', (process.env.PORT || 5000))
@@ -27,16 +26,19 @@ app.get('/webhook/', function(req, res){
     res.send("Wrong token")
 })
 
+// Handling incoming messages
 app.post('/webhook/', function(req, res){
     let messaging_events = req.body.entry[0].messaging
     for(let i = 0; i < messaging_events.length; i++){
         let event = messaging_events[i]
         let sender = event.sender.id
         if(event.message && event.message.text){
-            let text = event.message.text
-            //sendText(sender, "Text echo: " + text.substring(0, 100))
-            let choice = Math.floor(Math.random() * 2)
 
+            let sender_name = event.sender.name;
+            let text = event.message.text
+            let choice = Math.floor(Math.random() * 3)
+            sendText(sender, "Hej, " + sender_name + ". Trevligt.");
+            
             switch(choice){
                 case 0:
                     sendText(sender, text.substring(0, 100) + "? Skriv något intelligent om du ska föra en konversation med mig.")
@@ -51,8 +53,6 @@ app.post('/webhook/', function(req, res){
                     sendText(sender, "YOOO MOTHERFUCKER!")
                     break;
             }
-
-
         }
     }
     res.sendStatus(200)
