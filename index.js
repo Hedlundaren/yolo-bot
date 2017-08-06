@@ -4,6 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
+const http = require('http')
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -26,19 +27,33 @@ app.get('/webhook/', function(req, res){
     res.send("Wrong token")
 })
 
+
+// Get user info
+function getSenderInfo(sender_id){
+
+
+        app.get('https://graph.facebook.com/' + sender_id + "?access_token=" + token, function(req, res){
+            console.log("res: " + res);
+            console.log("req: " + req);
+    })
+}
+
 // Handling incoming messages
 app.post('/webhook/', function(req, res){
     let messaging_events = req.body.entry[0].messaging
     for(let i = 0; i < messaging_events.length; i++){
         let event = messaging_events[i]
         let sender = event.sender.id
+
+        getSenderInfo(sender)
+
         if(event.message && event.message.text){
 
             let sender_name = event.sender.name;
             let text = event.message.text
             let choice = Math.floor(Math.random() * 3)
             sendText(sender, "Hej, " + sender_name + ". Trevligt.");
-            
+
             switch(choice){
                 case 0:
                     sendText(sender, text.substring(0, 100) + "? Skriv något intelligent om du ska föra en konversation med mig.")
