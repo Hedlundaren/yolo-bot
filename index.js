@@ -34,7 +34,25 @@ app.post('/webhook/', function(req, res){
         let sender = event.sender.id
         if(event.message && event.message.text){
             let text = event.message.text
-            sendText(sender, "Text echo: " + sender.substring(0, 100))
+            //sendText(sender, "Text echo: " + text.substring(0, 100))
+            let choice = Math.floor(Math.random() * 2)
+
+            switch(choice){
+                case 0:
+                    sendText(sender, text.substring(0, 100) + "? Skriv något intelligent om du ska föra en konversation med mig.")
+                    break;
+                case 1:
+                    sendText(sender, "'Jag är en bajskorv och " + text.substring(0, 100) + " är det enda jag kan skriva.'")
+                    break;
+                case 2:
+                    sendText(sender, "Bara göteborgare kan komma på något så dumt.")
+                    break;
+                default:
+                    sendText(sender, "YOOO MOTHERFUCKER!")
+                    break;
+            }
+
+
         }
     }
     res.sendStatus(200)
