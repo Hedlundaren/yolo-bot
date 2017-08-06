@@ -32,10 +32,20 @@ app.get('/webhook/', function(req, res){
 function getSenderInfo(sender_id){
 
 
-        app.get('https://graph.facebook.com/' + sender_id + "?access_token=" + token, function(req, res){
-            console.log("res: " + res);
-            console.log("req: " + req);
-    })
+    //     app.get('https://graph.facebook.com/' + sender_id + "?access_token=" + token, function(req, res){
+    //         console.log("res: " + res);
+    //         console.log("req: " + req);
+    // })
+
+    http.get({
+        hostname: 'https://graph.facebook.com/' + sender_id + "?access_token=" + token,
+        port: 80,
+        path: '/',
+        agent: false  // create a new agent just for this one request
+    }, (res) => {
+        return res;
+    });
+
 }
 
 // Handling incoming messages
@@ -44,15 +54,13 @@ app.post('/webhook/', function(req, res){
     for(let i = 0; i < messaging_events.length; i++){
         let event = messaging_events[i]
         let sender = event.sender.id
-
-        getSenderInfo(sender)
+        let sender_info = getSenderInfo(sender)
 
         if(event.message && event.message.text){
 
-            let sender_name = event.sender.name;
             let text = event.message.text
             let choice = Math.floor(Math.random() * 3)
-            sendText(sender, "Hej, " + sender_name + ". Trevligt.");
+            sendText(sender, "Hej, " + sender_info + ". Trevligt.");
 
             switch(choice){
                 case 0:
