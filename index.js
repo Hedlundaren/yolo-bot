@@ -18,6 +18,7 @@ app.get('/', function(req, res){
 })
 
 let token = "EAAbqignfEwoBABzHXXS2GtsYwdf1vKXVg7Rbin0ycwg7N4eAsSllEeBETKsH50KjtZBWAXjvpmXhM9dOCkSMxsHTYM8V6cuKoPgQIOQDqsnXijfivqWejpP9wDskcZBZBeIsEX8B9vpvaFe1wtadWLhzM9kXTCpkarYPUe74QZDZD"
+
 // Facebook
 app.get('/webhook/', function(req, res){
     if(req.query['hub.verify_token'] === "yoloswag"){
@@ -25,8 +26,6 @@ app.get('/webhook/', function(req, res){
     }
     res.send("Wrong token")
 })
-
-
 
 app.post('/webhook/', function(req, res){
     let messaging_events = req.body.entry[0].messaging
@@ -44,7 +43,7 @@ app.post('/webhook/', function(req, res){
 function sendText(sender, text){
     let messageData = {text: text}
     request({
-        url: "https://yolo-bot.herokuapp.com/",
+        url: "https://graph.facebook.com/v2.6/me/messages",
         qs: {access_token : token},
         method: "POST",
         json: {
