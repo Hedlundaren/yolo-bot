@@ -46,6 +46,7 @@ function getWeather(sender){
 }
 
 let getJSON = function(url, callback) {
+    let XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
     let xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.responseType = 'json';
