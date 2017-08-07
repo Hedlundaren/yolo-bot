@@ -63,7 +63,7 @@ app.post('/webhook/', function(req, res){
     for(let i = 0; i < messaging_events.length; i++){
         let event = messaging_events[i]
         let sender = event.sender.id
-        let sender_first_name = event.sender.name()
+        let sender_first_name = event.sender.toString()
         let sender_info = getSenderInfo(sender)
 
         if(event.message && event.message.text){
@@ -72,20 +72,20 @@ app.post('/webhook/', function(req, res){
             let choice = Math.floor(Math.random() * 3)
             sendText(sender, "Hej, " + sender_first_name + ". Trevligt.");
 
-            switch(choice){
-                case 0:
-                    sendText(sender, text.substring(0, 100) + "? Skriv något intelligent om du ska föra en konversation med mig.")
-                    break;
-                case 1:
-                    sendText(sender, "'Jag är en bajskorv och " + text.substring(0, 100) + " är det enda jag kan skriva.'")
-                    break;
-                case 2:
-                    sendText(sender, "Bara göteborgare kan komma på något så dumt.")
-                    break;
-                default:
-                    sendText(sender, "YOOO MOTHERFUCKER!")
-                    break;
-            }
+            // switch(choice){
+            //     case 0:
+            //         sendText(sender, text.substring(0, 100) + "? Skriv något intelligent om du ska föra en konversation med mig.")
+            //         break;
+            //     case 1:
+            //         sendText(sender, "'Jag är en bajskorv och " + text.substring(0, 100) + " är det enda jag kan skriva.'")
+            //         break;
+            //     case 2:
+            //         sendText(sender, "Bara göteborgare kan komma på något så dumt.")
+            //         break;
+            //     default:
+            //         sendText(sender, "YOOO MOTHERFUCKER!")
+            //         break;
+            // }
         }
     }
     res.sendStatus(200)
