@@ -27,7 +27,11 @@ app.get('/webhook/', function(req, res){
     res.send("Wrong token")
 })
 
+var weather;
 
+function preload(){
+    weather = loadJSON("weather.json")
+}
 
 function getWeather(sender_id){
 
@@ -36,12 +40,12 @@ function getWeather(sender_id){
     //     rain: 0.1,
     //     temp: 32.4
     // }
-    loadJSON("weather.json", sendWeather, "jsonp")
+
+    sendText(sender_id, weather.temp)
+    
 }
 
-function sendWeather(weather){
-    sendText(sender_id, weather.temp)
-}
+
 
 // Get user info
 function getSenderInfo(sender_id){
