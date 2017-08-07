@@ -4,7 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 // This makes it crash
-const XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest
+//const XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest
 const app = express()
 
 
