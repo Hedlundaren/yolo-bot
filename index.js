@@ -32,14 +32,16 @@ app.get('/webhook/', function(req, res){
 function getWeather(sender_id){
 
     let url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json"
-    let weather = {
-        rain: 0.1,
-        temp: 32.4
-    }
-
-    sendText(sender_id, weather.temp)
+    // let weather = {
+    //     rain: 0.1,
+    //     temp: 32.4
+    // }
+    loadJSON("weather.json", sendWeather, "jsonp")
 }
 
+function sendWeather(weather){
+    sendText(sender_id, weather.temp)
+}
 
 // Get user info
 function getSenderInfo(sender_id){
