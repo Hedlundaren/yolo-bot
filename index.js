@@ -33,29 +33,6 @@ function getSenderInfo(sender_id){
 
     let path = 'https://graph.facebook.com' + sender_id + '?access_token=' + token
 
-    // let str = ''
-    // let options = {
-    //     host: 'https://graph.facebook.com',
-    //     path: '/' + sender_id + '?access_token=' + token
-    // }
-    //
-    // let callback = function(response) {
-    //
-    //     response.on('data', function (chunk) {
-    //         str += chunk
-    //     })
-    //
-    //     response.on('end', function () {
-    //         console.log(req.data)
-    //         console.log(str)
-    //         //return str
-    //     })
-
-    //}
-
-    //let req = http.request(options, callback).end()
-    // console.log(req.data);
-    // console.log(str);
     return sender_id
 }
 
@@ -72,7 +49,7 @@ app.post('/webhook/', function(req, res){
         if(event.message && event.message.text){
 
             let text = event.message.text.substring(0,100)
-            let words = text.split(',.! ')
+            let words = text.split(' ')
             let choice = Math.floor(Math.random() * 3)
             sendText(sender, "Hej, " + words[0] + ". Trevligt.");
 
