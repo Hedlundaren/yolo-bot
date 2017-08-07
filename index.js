@@ -27,11 +27,30 @@ app.get('/webhook/', function(req, res){
     res.send("Wrong token")
 })
 
+function getJSONP(url, success) {
+
+    var ud = '_' + +new Date,
+        script = document.createElement('script'),
+        head = document.getElementsByTagName('head')[0]
+            || document.documentElement;
+
+    window[ud] = function(data) {
+        head.removeChild(script);
+        success && success(data);
+    };
+
+    script.src = url.replace('callback=?', 'callback=' + ud);
+    head.appendChild(script);
+
+}
+
 function getWeather(sender_id){
 
     let url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json"
-    let data = loadJSON(url)
-    sendText(sender_id, data)
+
+    getJSONP(url, function(data){
+        sendText(sender_id, data)
+    });
 }
 
 
