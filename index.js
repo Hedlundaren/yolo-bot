@@ -80,12 +80,16 @@ app.post('/webhook/', function(req, res){
                     answer += ":)"
                     break;
                 case "sad":
+                    answer += ":("
                     break;
                 case "angry":
+                    answer += ">:("
                     break;
                 case "thumb":
+                    answer += "(Y)"
                     break;
                 case "cool":
+                    answer += "8-)"
                     break;
                 default:
                     break;
