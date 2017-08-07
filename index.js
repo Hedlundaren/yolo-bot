@@ -27,11 +27,6 @@ app.get('/webhook/', function(req, res){
     res.send("Wrong token")
 })
 
-var weather;
-
-function preload(){
-    weather = loadJSON("weather.json")
-}
 
 function getWeather(sender_id){
 
