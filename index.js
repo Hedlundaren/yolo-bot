@@ -80,7 +80,7 @@ app.post('/webhook/', function(req, res){
             let text = event.message.text.substring(0,100)
             let words = text.split(' ')
             let answer = "Hej, " + words[0] + ". Trevligt.\n"
-            //getWeather(sender)
+            getWeather(sender)
 
             switch(words[0]){
                 case "happy":
