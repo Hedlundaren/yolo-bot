@@ -33,16 +33,18 @@ app.get('/webhook/', function(req, res){
 function getWeather(sender){
 
     let url = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json'
-    getJSON(url,
-        function(err, data) {
-            if (err !== null) {
-                console.log('Could not find data.')
-            } else {
-                sendText(sender, data.approvedTime)
-                sendText(sender, data.timeSeries[0].parameters[11].name)
-                sendText(sender, data.timeSeries[0].parameters[11].values[0])
-            }
-        });
+    // getJSON(url,
+    //     function(err, data) {
+    //         if (err !== null) {
+    //             console.log('Could not find data.')
+    //         } else {
+    //             sendText(sender, data.approvedTime)
+    //             sendText(sender, data.timeSeries[0].parameters[11].name)
+    //             sendText(sender, data.timeSeries[0].parameters[11].values[0])
+    //         }
+    //     });
+
+    sendText(sender, "Fint väder")
 }
 
 let getJSON = function(url, callback) {
