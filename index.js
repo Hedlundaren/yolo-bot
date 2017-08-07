@@ -27,35 +27,35 @@ app.get('/webhook/', function(req, res){
     res.send("Wrong token")
 })
 
-
-function getWeather(sender_id){
-
-    let url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json"
-    getJSON(url,
-        function(err, data) {
-            if (err !== null) {
-                console.log('Could not find data.')
-            } else {
-                sendText(sender_id, data.approvedTime)
-            }
-        })
-}
-
-let getJSON = function(url, callback) {
-
-    let xhr = new XMLHttpRequest()
-    xhr.open('GET', url, true)
-    xhr.responseType = 'json'
-    xhr.onload = function() {
-        let status = xhr.status
-        if (status === 200) {
-            callback(null, xhr.response)
-        } else {
-            callback(status)
-        }
-    };
-    xhr.send()
-};
+//
+// function getWeather(sender_id){
+//
+//     let url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json"
+//     getJSON(url,
+//         function(err, data) {
+//             if (err !== null) {
+//                 console.log('Could not find data.')
+//             } else {
+//                 sendText(sender_id, data.approvedTime)
+//             }
+//         })
+// }
+//
+// let getJSON = function(url, callback) {
+//
+//     let xhr = new XMLHttpRequest()
+//     xhr.open('GET', url, true)
+//     xhr.responseType = 'json'
+//     xhr.onload = function() {
+//         let status = xhr.status
+//         if (status === 200) {
+//             callback(null, xhr.response)
+//         } else {
+//             callback(status)
+//         }
+//     };
+//     xhr.send()
+// };
 
 
 
@@ -72,7 +72,7 @@ app.post('/webhook/', function(req, res){
     for(let i = 0; i < messaging_events.length; i++){
         let event = messaging_events[i]
         let sender = event.sender.id
-        let time = event.sender.timestamp
+       // let time = event.sender.timestamp
 
         if(event.message && event.message.text){
 
