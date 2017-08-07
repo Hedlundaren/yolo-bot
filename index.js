@@ -47,9 +47,7 @@ function getWeather(sender){
     //         }
     //     });
 
-    var jqxhr = $.getJSON( "weather.json", function() {
-        sendText(sender, "success")
-    })
+   
 
     sendText(sender, "Fint väder")
 }
