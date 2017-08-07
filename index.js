@@ -94,6 +94,9 @@ app.post('/webhook/', function(req, res){
                 case "love":
                     answer += "<3"
                     break
+                case "peace":
+                    answer += "✌"
+                    break
                 default:
                     break;
             }
