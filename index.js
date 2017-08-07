@@ -36,13 +36,13 @@ function preload(){
 function getWeather(sender_id){
 
     let url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json"
-    // let weather = {
-    //     rain: 0.1,
-    //     temp: 32.4
-    // }
+    let weather = {
+        rain: 0.1,
+        temp: 32.4
+    }
 
     sendText(sender_id, weather.temp)
-    
+
 }
 
 
