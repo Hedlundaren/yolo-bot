@@ -33,7 +33,7 @@ function getWeather(sender_id){
     let url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json"
     getJSON(url,
         function(err, data) {
-            if (err != null) {
+            if (err !== null) {
                 console.log('Could not find data.')
             } else {
                 sendText(sender_id, data.approvedTime)
@@ -47,7 +47,7 @@ let getJSON = function(url, callback) {
     xhr.responseType = 'json';
     xhr.onload = function() {
         let status = xhr.status;
-        if (status == 200) {
+        if (status === 200) {
             callback(null, xhr.response);
         } else {
             callback(status);
