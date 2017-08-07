@@ -37,11 +37,14 @@ function getWeather(sender_id){
 
     let url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json"
     let weather = {
-        rain: 0.1,
-        temp: 32.4
+        "first_name": "Simon",
+        "last_name": "Hedlund",
+        "profile_pic": "https://scontent.xx.fbcdn.net/v/t31.0-1/p720x720/10571916_10202977758112166_356411672595479729_o.jpg?oh=b35a6213528fefa2f43e77f3e79a03db&oe=5A2D2531",
+        "locale": "en_PI",
+        "timezone": 2,
+        "gender": "male"
     }
-
-    sendText(sender_id, weather.temp)
+    sendText(sender_id, weather.first_name)
 
 }
 
