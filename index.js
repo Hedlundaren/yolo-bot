@@ -4,7 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 var http = require('http')
-var $ = require('jquery')
+//var $ = require('jquery')
 
 // This makes it crash
 //const XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest
@@ -47,7 +47,7 @@ function getWeather(sender){
     //         }
     //     });
 
-   
+
 
     sendText(sender, "Fint väder")
 }
