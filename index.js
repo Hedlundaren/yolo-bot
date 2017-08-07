@@ -30,21 +30,35 @@ app.get('/webhook/', function(req, res){
 })
 
 
-function getWeather(sender_id){
+function getWeather(sender){
 
-    let url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json"
-    let weather = {
-        "first_name": "Simon",
-        "last_name": "Hedlund",
-        "profile_pic": "https://scontent.xx.fbcdn.net/v/t31.0-1/p720x720/10571916_10202977758112166_356411672595479729_o.jpg?oh=b35a6213528fefa2f43e77f3e79a03db&oe=5A2D2531",
-        "locale": "en_PI",
-        "timezone": 2,
-        "gender": "male"
-    }
-    sendText(sender_id, weather.first_name)
+    let url = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json'
+    getJSON(url,
+        function(err, data) {
+            if (err !== null) {
+                console.log('Could not find data.')
+            } else {
+                sendText(sender, data.approvedTime)
+                sendText(sender, data.timeSeries[0].parameters[11].name)
+                sendText(sender, data.timeSeries[0].parameters[11].values[0])
+            }
+        });
 }
 
-
+let getJSON = function(url, callback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+        let status = xhr.status;
+        if (status === 200) {
+            callback(null, xhr.response);
+        } else {
+            callback(status);
+        }
+    };
+    xhr.send();
+};
 
 // Get user info
 function getSenderInfo(sender_id){
@@ -66,7 +80,7 @@ app.post('/webhook/', function(req, res){
             let text = event.message.text.substring(0,100)
             let words = text.split(' ')
             let answer = "Hej, " + words[0] + ". Trevligt.\n"
-            getWeather(sender)
+            //getWeather(sender)
 
             switch(words[0]){
                 case "happy":
