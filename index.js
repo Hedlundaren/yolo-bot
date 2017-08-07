@@ -3,7 +3,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
+// This makes it crash
+//const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 const app = express()
 
 
@@ -28,11 +29,6 @@ app.get('/webhook/', function(req, res){
     res.send("Wrong token")
 })
 
-var weather;
-
-function preload(){
-    weather = loadJSON("weather.json")
-}
 
 function getWeather(sender_id){
 
