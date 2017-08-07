@@ -72,7 +72,7 @@ app.post('/webhook/', function(req, res){
         if(event.message && event.message.text){
 
             let text = event.message.text.substring(0,100)
-            let words = text.split(',.! ')
+            let words = text.split(' ')
             let answer = "Hej, " + words[0] + ". Trevligt.\n"
 
             switch(words[0]){
@@ -96,6 +96,27 @@ app.post('/webhook/', function(req, res){
                     break
                 case "peace":
                     answer += "✌"
+                    break
+                case "sun":
+                    answer += "☀"
+                    break
+                case "partsun":
+                    answer += "⛅"
+                    break
+                case "cloud":
+                    answer += "☁"
+                    break
+                case "rain":
+                    answer += "☔"
+                    break
+                case "snow":
+                    answer += "❄⛄"
+                    break
+                case "windy":
+                    answer += "💨"
+                    break
+                case "lightning":
+                    answer += "⚡"
                     break
                 default:
                     break;
