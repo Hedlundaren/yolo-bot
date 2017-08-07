@@ -4,8 +4,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const http = require('http')
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
-
 const app = express()
 
 
@@ -53,10 +51,12 @@ function getWeather(sender_id){
 
 
 // Get user info
-function getSenderInfo(sender_id){
+function getSenderInfo(sender){
 
-    let path = 'https://graph.facebook.com/' + sender_id + '?access_token=' + token
-
+    let host = 'https://graph.facebook.com/'
+    let sender = '1375896805858790'
+    let token = '?access_token=EAAbqignfEwoBABzHXXS2GtsYwdf1vKXVg7Rbin0ycwg7N4eAsSllEeBETKsH50KjtZBWAXjvpmXhM9dOCkSMxsHTYM8V6cuKoPgQIOQDqsnXijfivqWejpP9wDskcZBZBeIsEX8B9vpvaFe1wtadWLhzM9kXTCpkarYPUe74QZDZD'
+    let url = host + sender + token
 }
 
 // Handling incoming messages
