@@ -41,12 +41,12 @@ function getWeather(sender_id){
         });
 }
 
-var getJSON = function(url, callback) {
-    var xhr = new XMLHttpRequest();
+let getJSON = function(url, callback) {
+    let xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.responseType = 'json';
     xhr.onload = function() {
-        var status = xhr.status;
+        let status = xhr.status;
         if (status == 200) {
             callback(null, xhr.response);
         } else {
@@ -89,7 +89,7 @@ app.post('/webhook/', function(req, res){
             let text = event.message.text.substring(0,100)
             let words = text.split(' ')
             let answer = "Hej, " + words[0] + ". Trevligt.\n"
-            //getWeather(sender)
+            getWeather(sender)
 
             switch(words[0]){
                 case "happy":
