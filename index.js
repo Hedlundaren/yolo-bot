@@ -36,7 +36,39 @@ function preload(){
 function getWeather(sender_id){
 
     let url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json"
-    let weather = {
+    getJSON(url,
+        function(err, data) {
+            if (err != null) {
+                console.log('Could not find data.')
+            } else {
+                sendText(sender_id, data.approvedTime)
+            }
+        });
+}
+
+var getJSON = function(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+        var status = xhr.status;
+        if (status == 200) {
+            callback(null, xhr.response);
+        } else {
+            callback(status);
+        }
+    };
+    xhr.send();
+};
+
+
+
+// Get user info
+function getSenderInfo(sender_id){
+
+    let path = 'https://graph.facebook.com/' + sender_id + '?access_token=' + token
+
+    let static_person = {
         "first_name": "Simon",
         "last_name": "Hedlund",
         "profile_pic": "https://scontent.xx.fbcdn.net/v/t31.0-1/p720x720/10571916_10202977758112166_356411672595479729_o.jpg?oh=b35a6213528fefa2f43e77f3e79a03db&oe=5A2D2531",
@@ -44,16 +76,8 @@ function getWeather(sender_id){
         "timezone": 2,
         "gender": "male"
     }
-    sendText(sender_id, weather.first_name)
 
-}
-
-
-
-// Get user info
-function getSenderInfo(sender_id){
-
-    let path = 'https://graph.facebook.com' + sender_id + '?access_token=' + token
+    sendText(sender_id, static_person.first_name)
 
 }
 
