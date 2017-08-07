@@ -4,7 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
+const http = require('http')
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -27,42 +27,32 @@ app.get('/webhook/', function(req, res){
     res.send("Wrong token")
 })
 
-//
-// function getWeather(sender_id){
-//
-//     let url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json"
-//     getJSON(url,
-//         function(err, data) {
-//             if (err !== null) {
-//                 console.log('Could not find data.')
-//             } else {
-//                 sendText(sender_id, data.approvedTime)
-//             }
-//         })
-// }
-//
-// let getJSON = function(url, callback) {
-//
-//     let xhr = new XMLHttpRequest()
-//     xhr.open('GET', url, true)
-//     xhr.responseType = 'json'
-//     xhr.onload = function() {
-//         let status = xhr.status
-//         if (status === 200) {
-//             callback(null, xhr.response)
-//         } else {
-//             callback(status)
-//         }
-//     };
-//     xhr.send()
-// };
+var weather;
+
+function preload(){
+    weather = loadJSON("weather.json")
+}
+
+function getWeather(sender_id){
+
+    let url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json"
+    let weather = {
+        "first_name": "Simon",
+        "last_name": "Hedlund",
+        "profile_pic": "https://scontent.xx.fbcdn.net/v/t31.0-1/p720x720/10571916_10202977758112166_356411672595479729_o.jpg?oh=b35a6213528fefa2f43e77f3e79a03db&oe=5A2D2531",
+        "locale": "en_PI",
+        "timezone": 2,
+        "gender": "male"
+    }
+    sendText(sender_id, weather.first_name)
+}
 
 
 
 // Get user info
-function getSenderInfo(sender){
+function getSenderInfo(sender_id){
 
-    let path = 'https://graph.facebook.com/' + sender + '?access_token=' + token
+    let path = 'https://graph.facebook.com/' + sender_id + '?access_token=' + token
 
 }
 
@@ -72,14 +62,14 @@ app.post('/webhook/', function(req, res){
     for(let i = 0; i < messaging_events.length; i++){
         let event = messaging_events[i]
         let sender = event.sender.id
-       // let time = event.sender.timestamp
+        let time = event.sender.timestamp
 
         if(event.message && event.message.text){
 
             let text = event.message.text.substring(0,100)
             let words = text.split(' ')
             let answer = "Hej, " + words[0] + ". Trevligt.\n"
-            //getWeather(sender)
+            getWeather(sender)
 
             switch(words[0]){
                 case "happy":
@@ -133,6 +123,23 @@ app.post('/webhook/', function(req, res){
     res.sendStatus(200)
 })
 
+function randomAnswer(){
+    let choice = Math.floor(Math.random() * 3)
+    switch(choice){
+        case 0:
+            sendText(sender, text.substring(0, 100) + "? Skriv något intelligent om du ska föra en konversation med mig.")
+            break;
+        case 1:
+            sendText(sender, "'Jag är en bajskorv och " + text.substring(0, 100) + " är det enda jag kan skriva.'")
+            break;
+        case 2:
+            sendText(sender, "Bara göteborgare kan komma på något så dumt.")
+            break;
+        default:
+            sendText(sender, "YOOO MOTHERFUCKER!")
+            break;
+    }
+}
 
 function sendText(sender, text){
     let messageData = {text: text}
