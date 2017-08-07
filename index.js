@@ -44,6 +44,21 @@ function getWeather(sender){
     //         }
     //     });
 
+    http.get(url, function(res){
+        var body = '';
+
+        res.on('data', function(chunk){
+            body += chunk;
+        });
+
+        res.on('end', function(){
+            var data = JSON.parse(body);
+            sendText(sender, data.approvedTime)
+        });
+    }).on('error', function(e){
+        console.log("Got an error: ", e);
+    });
+
     sendText(sender, "Fint väder")
 }
 
