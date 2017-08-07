@@ -4,8 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-var xhr = new XMLHttpRequest();
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -39,22 +38,23 @@ function getWeather(sender_id){
             } else {
                 sendText(sender_id, data.approvedTime)
             }
-        });
+        })
 }
 
 let getJSON = function(url, callback) {
 
-    xhr.open('GET', url, true);
-    xhr.responseType = 'json';
+    let xhr = new XMLHttpRequest()
+    xhr.open('GET', url, true)
+    xhr.responseType = 'json'
     xhr.onload = function() {
-        let status = xhr.status;
+        let status = xhr.status
         if (status === 200) {
-            callback(null, xhr.response);
+            callback(null, xhr.response)
         } else {
-            callback(status);
+            callback(status)
         }
     };
-    xhr.send();
+    xhr.send()
 };
 
 
@@ -79,7 +79,7 @@ app.post('/webhook/', function(req, res){
             let text = event.message.text.substring(0,100)
             let words = text.split(' ')
             let answer = "Hej, " + words[0] + ". Trevligt.\n"
-            getWeather(sender)
+            //getWeather(sender)
 
             switch(words[0]){
                 case "happy":
