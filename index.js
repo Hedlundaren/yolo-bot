@@ -33,6 +33,29 @@ function getSenderInfo(sender_id){
 
     let path = 'https://graph.facebook.com' + sender_id + '?access_token=' + token
 
+    // let str = ''
+    // let options = {
+    //     host: 'https://graph.facebook.com',
+    //     path: '/' + sender_id + '?access_token=' + token
+    // }
+    //
+    // let callback = function(response) {
+    //
+    //     response.on('data', function (chunk) {
+    //         str += chunk
+    //     })
+    //
+    //     response.on('end', function () {
+    //         console.log(req.data)
+    //         console.log(str)
+    //         //return str
+    //     })
+
+    //}
+
+    //let req = http.request(options, callback).end()
+    // console.log(req.data);
+    // console.log(str);
     return sender_id
 }
 
@@ -49,14 +72,47 @@ app.post('/webhook/', function(req, res){
         if(event.message && event.message.text){
 
             let text = event.message.text.substring(0,100)
-            let words = text.split(' ')
-            let choice = Math.floor(Math.random() * 3)
-            sendText(sender, "Hej, " + words[0] + ". Trevligt.");
+            let words = text.split(',.! ')
+            let answer = "Hej, " + words[0] + ". Trevligt.\n"
 
+            switch(words[0]){
+                case "happy":
+                    answer += ":)"
+                    break;
+                case "sad":
+                    break;
+                case "angry":
+                    break;
+                case "thumb":
+                    break;
+                case "cool":
+                    break;
+                default:
+                    break;
+            }
+            sendText(sender, answer)
         }
     }
     res.sendStatus(200)
 })
+
+function randomAnswer(){
+    let choice = Math.floor(Math.random() * 3)
+    switch(choice){
+        case 0:
+            sendText(sender, text.substring(0, 100) + "? Skriv något intelligent om du ska föra en konversation med mig.")
+            break;
+        case 1:
+            sendText(sender, "'Jag är en bajskorv och " + text.substring(0, 100) + " är det enda jag kan skriva.'")
+            break;
+        case 2:
+            sendText(sender, "Bara göteborgare kan komma på något så dumt.")
+            break;
+        default:
+            sendText(sender, "YOOO MOTHERFUCKER!")
+            break;
+    }
+}
 
 function sendText(sender, text){
     let messageData = {text: text}
