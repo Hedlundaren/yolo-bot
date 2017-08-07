@@ -27,36 +27,19 @@ app.get('/webhook/', function(req, res){
     res.send("Wrong token")
 })
 
+function getWeather(sender_id){
+
+    let url = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json"
+    let data = loadJSON(url)
+    sendText(sender_id, data)
+}
+
 
 // Get user info
 function getSenderInfo(sender_id){
 
     let path = 'https://graph.facebook.com' + sender_id + '?access_token=' + token
 
-    // let str = ''
-    // let options = {
-    //     host: 'https://graph.facebook.com',
-    //     path: '/' + sender_id + '?access_token=' + token
-    // }
-    //
-    // let callback = function(response) {
-    //
-    //     response.on('data', function (chunk) {
-    //         str += chunk
-    //     })
-    //
-    //     response.on('end', function () {
-    //         console.log(req.data)
-    //         console.log(str)
-    //         //return str
-    //     })
-
-    //}
-
-    //let req = http.request(options, callback).end()
-    // console.log(req.data);
-    // console.log(str);
-    return sender_id
 }
 
 // Handling incoming messages
@@ -66,14 +49,13 @@ app.post('/webhook/', function(req, res){
         let event = messaging_events[i]
         let sender = event.sender.id
         let time = event.sender.timestamp
-        let sender_first_name = "Jargo"
-        let sender_info = getSenderInfo(sender)
 
         if(event.message && event.message.text){
 
             let text = event.message.text.substring(0,100)
             let words = text.split(' ')
             let answer = "Hej, " + words[0] + ". Trevligt.\n"
+            getWeather(sender)
 
             switch(words[0]){
                 case "happy":
