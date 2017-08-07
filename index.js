@@ -4,8 +4,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
-const http = require('http')
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var xhr = new XMLHttpRequest();
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -43,7 +43,7 @@ function getWeather(sender_id){
 }
 
 let getJSON = function(url, callback) {
-    let xhr = new XMLHttpRequest();
+
     xhr.open('GET', url, true);
     xhr.responseType = 'json';
     xhr.onload = function() {
@@ -63,17 +63,6 @@ let getJSON = function(url, callback) {
 function getSenderInfo(sender){
 
     let path = 'https://graph.facebook.com/' + sender + '?access_token=' + token
-
-    let static_person = {
-        "first_name": "Simon",
-        "last_name": "Hedlund",
-        "profile_pic": "https://scontent.xx.fbcdn.net/v/t31.0-1/p720x720/10571916_10202977758112166_356411672595479729_o.jpg?oh=b35a6213528fefa2f43e77f3e79a03db&oe=5A2D2531",
-        "locale": "en_PI",
-        "timezone": 2,
-        "gender": "male"
-    }
-
-    sendText(sender, static_person.first_name)
 
 }
 
