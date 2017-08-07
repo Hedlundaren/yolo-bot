@@ -3,6 +3,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
+var http = require('http')
 // This makes it crash
 //const XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest
 const app = express()
