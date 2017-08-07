@@ -63,13 +63,15 @@ app.post('/webhook/', function(req, res){
     for(let i = 0; i < messaging_events.length; i++){
         let event = messaging_events[i]
         let sender = event.sender.id
+        let sender_first_name = event.sender.name[0];
+
         let sender_info = getSenderInfo(sender)
 
         if(event.message && event.message.text){
 
             let text = event.message.text
             let choice = Math.floor(Math.random() * 3)
-            sendText(sender, "Hej, " + sender_info + ". Trevligt.");
+            sendText(sender, "Hej, " + sender_first_name + ". Trevligt.");
 
             switch(choice){
                 case 0:
