@@ -59,9 +59,9 @@ var getJSON = function(url, callback) {
 
 
 // Get user info
-function getSenderInfo(sender_id){
+function getSenderInfo(sender){
 
-    let path = 'https://graph.facebook.com/' + sender_id + '?access_token=' + token
+    let path = 'https://graph.facebook.com/' + sender + '?access_token=' + token
 
     let static_person = {
         "first_name": "Simon",
@@ -72,7 +72,7 @@ function getSenderInfo(sender_id){
         "gender": "male"
     }
 
-    sendText(sender_id, static_person.first_name)
+    sendText(sender, static_person.first_name)
 
 }
 
@@ -143,23 +143,6 @@ app.post('/webhook/', function(req, res){
     res.sendStatus(200)
 })
 
-function randomAnswer(){
-    let choice = Math.floor(Math.random() * 3)
-    switch(choice){
-        case 0:
-            sendText(sender, text.substring(0, 100) + "? Skriv något intelligent om du ska föra en konversation med mig.")
-            break;
-        case 1:
-            sendText(sender, "'Jag är en bajskorv och " + text.substring(0, 100) + " är det enda jag kan skriva.'")
-            break;
-        case 2:
-            sendText(sender, "Bara göteborgare kan komma på något så dumt.")
-            break;
-        default:
-            sendText(sender, "YOOO MOTHERFUCKER!")
-            break;
-    }
-}
 
 function sendText(sender, text){
     let messageData = {text: text}
