@@ -78,19 +78,22 @@ app.post('/webhook/', function(req, res){
             switch(words[0]){
                 case "happy":
                     answer += ":)"
-                    break;
+                    break
                 case "sad":
                     answer += ":("
-                    break;
+                    break
                 case "angry":
                     answer += ">:("
-                    break;
+                    break
                 case "thumb":
                     answer += "(Y)"
-                    break;
+                    break
                 case "cool":
                     answer += "8-)"
-                    break;
+                    break
+                case "love":
+                    answer += "<3"
+                    break
                 default:
                     break;
             }
