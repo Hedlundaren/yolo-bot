@@ -38,10 +38,35 @@ app.get('/test/', function(req, res){
     axios
         .get(url)
         .then(({ data })=> {
-            res.send(data.timeSeries[0].parameters[11].values[0].toString())
+            let params = data.timeSeries[0].parameters
+            let temp; // t
+            let sky; // tcc_mean
+            let rain; // pmean
+            let wind; // ws
+            let snow;
+            let thunder
+            for(let i = 0; i < params.length; i++){
+                if(params[i].name === "t"){
+                    temp = params[i].values[0]
+                }else if(params[i].name === "tcc_mean"){
+                    sky = params[i].values[0]
+                }else if(params[i].name === "pmean"){
+                    rain = params[i].values[0]
+                }else if(params[i].name === "ws"){
+                    wind = params[i].values[0]
+                }else if(params[i].name === "tstm"){
+                    thunder = params[i].values[0]
+                }
+            }
+
+            if(temp < 0 && rain > 0){
+                snow = rain
+                rain = 0
+            }
+
+            res.send(temp.toString())
         })
         .catch((err)=> {})
-
 })
 
 
@@ -50,7 +75,40 @@ function getWeather(sender){
     axios
         .get(url)
         .then(({ data })=> {
-            sendText(sender, data.timeSeries[0].parameters[11].values[0].toString())
+            let params = data.timeSeries[0].parameters
+            let temp, sky, rain, snow, wind, thunder = -1
+            let weather_message = ""
+
+            for(let i = 0; i < params.length; i++){
+                if(params[i].name === "t"){ // Temperature
+                    temp = params[i].values[0]
+                    weather_message += "Vädret är " + temp + "grader ";
+                }else if(params[i].name === "tcc_mean"){ // Cloudy
+                    sky = params[i].values[0]
+                    if(sky < 3) weather_message += "☀"
+                    else if(sky < 3) weather_message += "⛅"
+                    else weather_message += "☁"
+                }else if(params[i].name === "pmean"){ // Rain
+                    rain = params[i].values[0]
+                    if(rain < 3) weather_message += "☔"
+                }else if(params[i].name === "ws"){ // Wind
+                    wind = params[i].values[0]
+                    if(wind > 5) weather_message += "💨"
+                }else if(params[i].name === "tstm"){  // Thunder
+                    thunder = params[i].values[0]
+                    if(thunder > 50) weather_message += "⚡"
+                }
+            }
+
+            if(temp < 0 && rain > 0){
+                snow = rain
+                rain = 0
+                if(snow > 0) weather_message += "❄⛄"
+            }
+
+            sendText(sender, weather_message)
+
+
         })
         .catch((err)=> {})
 }
@@ -98,27 +156,6 @@ app.post('/webhook/', function(req, res){
                     break
                 case "peace":
                     answer += "✌"
-                    break
-                case "sun":
-                    answer += "☀"
-                    break
-                case "partsun":
-                    answer += "⛅"
-                    break
-                case "cloud":
-                    answer += "☁"
-                    break
-                case "rain":
-                    answer += "☔"
-                    break
-                case "snow":
-                    answer += "❄⛄"
-                    break
-                case "windy":
-                    answer += "💨"
-                    break
-                case "lightning":
-                    answer += "⚡"
                     break
                 default:
                     break;
