@@ -64,14 +64,13 @@ function howManyJobs(sender) {
 
 function getJobs(sender) {
     let url = 'https://feeds.mynetworkglobal.com/json/linkoping'
-
     axios
         .get(url)
         .then(({data}) => {
 
             let job_list = ""
-            for (let i = 0; i < 4; i++) {
-                job_list += data.positions[i].jobtype.name + '\n'
+            for (let i = 0; i < 10; i++) {
+                job_list +=  (i+1) + '. ' + data.positions[i].jobtype.name + '\n'
             }
             sendText(sender, job_list)
         })
