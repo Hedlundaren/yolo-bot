@@ -38,7 +38,7 @@ app.get('/test/', function(req, res){
     axios
         .get(url)
         .then(({ data })=> {
-            res.send(data.timeSeries[0].parameters[11].values[0])
+            res.send(data.timeSeries[0].parameters[11].values)
         })
         .catch((err)=> {})
 
@@ -50,7 +50,7 @@ function getWeather(sender){
     axios
         .get(url)
         .then(({ data })=> {
-            res.send(data.timeSeries[0].parameters[11].values[0])
+            sendText(sender, data.timeSeries[0].parameters[11].values)
         })
         .catch((err)=> {})
 }
