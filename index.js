@@ -4,6 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const http = require('http')
+const axios = require('axios')
 //var $ = require('jquery')
 
 // This makes it crash
@@ -32,28 +33,26 @@ app.get('/webhook/', function(req, res){
     res.send("Wrong token")
 })
 
+app.get('/test/', function(req, res){
+    let url = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json'
+    axios
+        .get(url)
+        .then(({ data })=> {
+            res.send(data.approvedTime)
+        })
+        .catch((err)=> {})
+
+})
+
 
 function getWeather(sender){
-
     let url = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json'
-    // getJSON(url,
-    //     function(err, data) {
-    //         if (err !== null) {
-    //             console.log('Could not find data.')
-    //         } else {
-    //             sendText(sender, data.approvedTime)
-    //             sendText(sender, data.timeSeries[0].parameters[11].name)
-    //             sendText(sender, data.timeSeries[0].parameters[11].values[0])
-    //         }
-    //     });
     axios
         .get(url)
         .then(({ data })=> {
             sendText(sender, data.approvedTime)
         })
         .catch((err)=> {})
-
-    sendText(sender, "Fint väder")
 }
 
 let getJSON = function(url, callback) {
