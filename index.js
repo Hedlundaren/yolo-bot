@@ -48,9 +48,13 @@ app.get('/test/', function(req, res){
 
 
 function getWeather(sender){
-    let url = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json'
+
+    58.586802, 16.180616
+
+    let url_malm = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json'
+    let url_nkpg = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/16.1806/lat/58.5868/data.json'
     axios
-        .get(url)
+        .get(url_nkpg)
         .then(({ data })=> {
             let params = data.timeSeries[0].parameters
             let temp, sky, rain, snow, wind, thunder = -1
@@ -93,7 +97,7 @@ function getWeather(sender){
 // Get user info
 function getSenderInfo(sender){
 
-    let url = 'https://graph.facebook.com/' + sender+ '?access_token=' + token
+    let url = 'https://graph.facebook.com/' + sender + '?access_token=' + token
     axios
         .get(url)
         .then(({ data })=> {
