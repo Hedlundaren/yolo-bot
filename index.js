@@ -36,18 +36,48 @@ app.get('/webhook/', function (req, res) {
 
 app.get('/test/', function (req, res) {
     let url = 'https://feeds.mynetworkglobal.com/json/linkoping'
-    url = 'http://kartan.linkoping.se/isms/poi?service=wfs&request=getfeature&typename=bibliotek&version=1.1.0&'
 
     axios
         .get(url)
         .then(({data}) => {
 
-            res.send(data)
+            let job_list = ""
+            for (let i = 0; i < data.positions.length; i++) {
+                job_list += data.positions[i].jobtype.name + '\n'
+            }
+            res.send(job_list)
         })
         .catch((err) => {
         })
 })
 
+function howManyJobs(sender) {
+    let url = 'https://feeds.mynetworkglobal.com/json/linkoping'
+    axios
+        .get(url)
+        .then(({data}) => {
+            sendText(sender, data.positions.length.toString())
+        })
+        .catch((err) => {
+        })
+}
+
+function getJobs(sender) {
+    let url = 'https://feeds.mynetworkglobal.com/json/linkoping'
+
+    axios
+        .get(url)
+        .then(({data}) => {
+
+            let job_list = ""
+            for (let i = 0; i < data.positions.length; i++) {
+                job_list += data.positions[i].jobtype.name + '\n'
+            }
+            sendText(sender, job_list)
+        })
+        .catch((err) => {
+        })
+}
 
 function getWeather(sender) {
 
@@ -73,11 +103,11 @@ function getWeather(sender) {
                     if (params[i].name === "tcc_mean") { // Cloudy
                         sky = params[i].values[0]
                         if (sky < 3) weather_message += "☀"
-                        else if (sky < 3) weather_message += "⛅"
+                        else if (sky < 6) weather_message += "⛅"
                         else weather_message += "☁"
                     } else if (params[i].name === "pmean") { // Rain
                         rain = params[i].values[0]
-                        if (rain < 3) weather_message += "☔"
+                        if (rain > 0) weather_message += "☔"
                     } else if (params[i].name === "ws") { // Wind
                         wind = params[i].values[0]
                         if (wind > 5) weather_message += "💨"
@@ -94,8 +124,6 @@ function getWeather(sender) {
                 }
 
                 sendText(sender, weather_message)
-
-
             }
         )
         .catch((err) => {
@@ -134,8 +162,7 @@ app.post('/webhook/', function (req, res) {
 
         if (event.message && event.message.text) {
 
-            let text = event.message.text.substring(0, 300)
-            text.toLowerCase()
+            let text = event.message.text.substring(0, 300).toLowerCase()
             let words = text.split(' ')
             let answer = ""
 
@@ -143,6 +170,10 @@ app.post('/webhook/', function (req, res) {
                 getSenderInfo(sender)
             else if (words[0] === "v" || words[0] === "väder")
                 getWeather(sender)
+            else if (words[0] === "jobb")
+                howManyJobs(sender)
+            else if (words[0] === "lista" || words[1] === "jobb")
+                getJobs(sender)
             else
                 sendText(sender, "Va? 8-)")
 
