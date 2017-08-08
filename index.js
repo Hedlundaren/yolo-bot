@@ -38,7 +38,7 @@ app.get('/test/', function(req, res){
     axios
         .get(url)
         .then(({ data })=> {
-            res.send(data.approvedTime)
+            res.send(data.timeSeries[0].parameters[11].values[0])
         })
         .catch((err)=> {})
 
@@ -50,26 +50,12 @@ function getWeather(sender){
     axios
         .get(url)
         .then(({ data })=> {
-            sendText(sender, data.approvedTime)
+            res.send(data.timeSeries[0].parameters[11].values[0])
         })
         .catch((err)=> {})
 }
 
-let getJSON = function(url, callback) {
-    let XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.responseType = 'json';
-    xhr.onload = function() {
-        let status = xhr.status;
-        if (status === 200) {
-            callback(null, xhr.response);
-        } else {
-            callback(status);
-        }
-    };
-    xhr.send();
-};
+
 
 // Get user info
 function getSenderInfo(sender_id){
