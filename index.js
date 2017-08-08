@@ -109,7 +109,7 @@ function getSenderInfo(sender){
             let timezone = data.timezone
             let gender = data.gender
 
-            sendText(sender, "Hi, " + first_name + ". \n")
+            sendText(sender, "Hej, " + first_name + ". \n")
         })
         .catch((err)=> {})
 
@@ -127,7 +127,7 @@ app.post('/webhook/', function(req, res){
 
             let text = event.message.text.substring(0,100)
             let words = text.split(' ')
-            let answer = "Hej, " + words[0] + ". Trevligt.\n"
+            let answer = ""
 
             getSenderInfo(sender)
             if(words[0] === "v"){
@@ -164,24 +164,6 @@ app.post('/webhook/', function(req, res){
     }
     res.sendStatus(200)
 })
-
-function randomAnswer(){
-    let choice = Math.floor(Math.random() * 3)
-    switch(choice){
-        case 0:
-            sendText(sender, text.substring(0, 100) + "? Skriv något intelligent om du ska föra en konversation med mig.")
-            break;
-        case 1:
-            sendText(sender, "'Jag är en bajskorv och " + text.substring(0, 100) + " är det enda jag kan skriva.'")
-            break;
-        case 2:
-            sendText(sender, "Bara göteborgare kan komma på något så dumt.")
-            break;
-        default:
-            sendText(sender, "YOOO MOTHERFUCKER!")
-            break;
-    }
-}
 
 function sendText(sender, text){
     let messageData = {text: text}
