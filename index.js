@@ -20,6 +20,7 @@ app.use(bodyParser.json())
 
 // ROUTES
 app.get('/', function(req, res){
+
     res.send("Hi I am a chatbot")
 })
 
@@ -34,37 +35,13 @@ app.get('/webhook/', function(req, res){
 })
 
 app.get('/test/', function(req, res){
-    let url = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.513/lat/58.417/data.json'
+    let url = 'https://graph.facebook.com/1375896805858790?access_token=' + token
+
     axios
         .get(url)
         .then(({ data })=> {
-            let params = data.timeSeries[0].parameters
-            let temp; // t
-            let sky; // tcc_mean
-            let rain; // pmean
-            let wind; // ws
-            let snow;
-            let thunder
-            for(let i = 0; i < params.length; i++){
-                if(params[i].name === "t"){
-                    temp = params[i].values[0]
-                }else if(params[i].name === "tcc_mean"){
-                    sky = params[i].values[0]
-                }else if(params[i].name === "pmean"){
-                    rain = params[i].values[0]
-                }else if(params[i].name === "ws"){
-                    wind = params[i].values[0]
-                }else if(params[i].name === "tstm"){
-                    thunder = params[i].values[0]
-                }
-            }
 
-            if(temp < 0 && rain > 0){
-                snow = rain
-                rain = 0
-            }
-
-            res.send(temp.toString())
+            res.send(data)
         })
         .catch((err)=> {})
 })
@@ -82,7 +59,7 @@ function getWeather(sender){
             for(let i = 0; i < params.length; i++){
                 if(params[i].name === "t"){ // Temperature
                     temp = params[i].values[0]
-                    weather_message += "Vädret är " + temp + "grader ";
+                    weather_message += "Just nu är det " + temp + " grader hemma.";
                 }else if(params[i].name === "tcc_mean"){ // Cloudy
                     sky = params[i].values[0]
                     if(sky < 3) weather_message += "☀"
@@ -114,9 +91,23 @@ function getWeather(sender){
 }
 
 // Get user info
-function getSenderInfo(sender_id){
+function getSenderInfo(sender){
 
-    let path = 'https://graph.facebook.com/' + sender_id + '?access_token=' + token
+    let path = 'https://graph.facebook.com/' + sender+ '?access_token=' + token
+    axios
+        .get(url)
+        .then(({ data })=> {
+
+            let first_name = data.first_name
+            let last_name = data.last_name
+            let profile_pic = data.profile_pic
+            let locale = data.locale
+            let timezone = data.timezone
+            let gender = data.gender
+
+            sendText(sender, "Hi, " + first_name + ". \n")
+        })
+        .catch((err)=> {})
 
 }
 
@@ -133,7 +124,11 @@ app.post('/webhook/', function(req, res){
             let text = event.message.text.substring(0,100)
             let words = text.split(' ')
             let answer = "Hej, " + words[0] + ". Trevligt.\n"
-            getWeather(sender)
+
+            getSenderInfo(sender)
+            if(words[0] === "v"){
+                getWeather(sender)
+            }
 
             switch(words[0]){
                 case "happy":
