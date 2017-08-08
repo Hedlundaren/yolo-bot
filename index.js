@@ -70,7 +70,7 @@ function getJobs(sender) {
         .then(({data}) => {
 
             let job_list = ""
-            for (let i = 0; i < data.positions.length; i++) {
+            for (let i = 0; i < 4; i++) {
                 job_list += data.positions[i].jobtype.name + '\n'
             }
             sendText(sender, job_list)
@@ -172,7 +172,7 @@ app.post('/webhook/', function (req, res) {
                 getWeather(sender)
             else if (words[0] === "jobb")
                 howManyJobs(sender)
-            else if (words[0] === "lista" || words[1] === "jobb")
+            else if (words[0] === "lista")
                 getJobs(sender)
             else
                 sendText(sender, "Va? 8-)")
