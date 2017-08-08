@@ -3,7 +3,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
-var http = require('http')
+const http = require('http')
 //var $ = require('jquery')
 
 // This makes it crash
@@ -46,8 +46,12 @@ function getWeather(sender){
     //             sendText(sender, data.timeSeries[0].parameters[11].values[0])
     //         }
     //     });
-
-
+    axios
+        .get(url)
+        .then(({ data })=> {
+            sendText(sender, data.approvedTime)
+        })
+        .catch((err)=> {})
 
     sendText(sender, "Fint väder")
 }
