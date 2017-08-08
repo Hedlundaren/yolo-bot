@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 // ROUTES
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
 
     res.send("Hi I am a chatbot")
 })
@@ -27,27 +27,29 @@ app.get('/', function(req, res){
 let token = "EAAbqignfEwoBABzHXXS2GtsYwdf1vKXVg7Rbin0ycwg7N4eAsSllEeBETKsH50KjtZBWAXjvpmXhM9dOCkSMxsHTYM8V6cuKoPgQIOQDqsnXijfivqWejpP9wDskcZBZBeIsEX8B9vpvaFe1wtadWLhzM9kXTCpkarYPUe74QZDZD"
 
 // Facebook
-app.get('/webhook/', function(req, res){
-    if(req.query['hub.verify_token'] === "yoloswag"){
+app.get('/webhook/', function (req, res) {
+    if (req.query['hub.verify_token'] === "yoloswag") {
         res.send(req.query['hub.challenge'])
     }
     res.send("Wrong token")
 })
 
-app.get('/test/', function(req, res){
-    let url = 'https://graph.facebook.com/1375896805858790?access_token=' + token
+app.get('/test/', function (req, res) {
+    let url = 'https://feeds.mynetworkglobal.com/json/linkoping'
+    url = 'http://kartan.linkoping.se/isms/poi?service=wfs&request=getfeature&typename=bibliotek&version=1.1.0&'
 
     axios
         .get(url)
-        .then(({ data })=> {
+        .then(({data}) => {
 
             res.send(data)
         })
-        .catch((err)=> {})
+        .catch((err) => {
+        })
 })
 
 
-function getWeather(sender){
+function getWeather(sender) {
 
     58.586802, 16.180616
 
@@ -55,52 +57,58 @@ function getWeather(sender){
     let url_nkpg = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/16.1806/lat/58.5868/data.json'
     axios
         .get(url_nkpg)
-        .then(({ data })=> {
-            let params = data.timeSeries[0].parameters
-            let temp, sky, rain, snow, wind, thunder = -1
-            let weather_message = ""
+        .then(({data}) => {
+                let params = data.timeSeries[0].parameters
+                let temp, sky, rain, snow, wind, thunder = -1
+                let weather_message = ""
 
-            for(let i = 0; i < params.length; i++){
-                if(params[i].name === "t"){ // Temperature
-                    temp = params[i].values[0]
-                    weather_message += "Just nu är det " + temp + " grader hemma.";
-                }else if(params[i].name === "tcc_mean"){ // Cloudy
-                    sky = params[i].values[0]
-                    if(sky < 3) weather_message += "☀"
-                    else if(sky < 3) weather_message += "⛅"
-                    else weather_message += "☁"
-                }else if(params[i].name === "pmean"){ // Rain
-                    rain = params[i].values[0]
-                    if(rain < 3) weather_message += "☔"
-                }else if(params[i].name === "ws"){ // Wind
-                    wind = params[i].values[0]
-                    if(wind > 5) weather_message += "💨"
-                }else if(params[i].name === "tstm"){  // Thunder
-                    thunder = params[i].values[0]
-                    if(thunder > 50) weather_message += "⚡"
+                for (let i = 0; i < params.length; i++) {
+                    if (params[i].name === "t") { // Temperature
+                        temp = params[i].values[0]
+                        weather_message += "Just nu är det " + temp + " grader hemma.";
+                    }
                 }
+                for (let i = 0; i < params.length; i++) {
+
+                    if (params[i].name === "tcc_mean") { // Cloudy
+                        sky = params[i].values[0]
+                        if (sky < 3) weather_message += "☀"
+                        else if (sky < 3) weather_message += "⛅"
+                        else weather_message += "☁"
+                    } else if (params[i].name === "pmean") { // Rain
+                        rain = params[i].values[0]
+                        if (rain < 3) weather_message += "☔"
+                    } else if (params[i].name === "ws") { // Wind
+                        wind = params[i].values[0]
+                        if (wind > 5) weather_message += "💨"
+                    } else if (params[i].name === "tstm") {  // Thunder
+                        thunder = params[i].values[0]
+                        if (thunder > 50) weather_message += "⚡"
+                    }
+                }
+
+                if (temp < 0 && rain > 0) {
+                    snow = rain
+                    rain = 0
+                    if (snow > 0) weather_message += "❄⛄"
+                }
+
+                sendText(sender, weather_message)
+
+
             }
-
-            if(temp < 0 && rain > 0){
-                snow = rain
-                rain = 0
-                if(snow > 0) weather_message += "❄⛄"
-            }
-
-            sendText(sender, weather_message)
-
-
+        )
+        .catch((err) => {
         })
-        .catch((err)=> {})
 }
 
 // Get user info
-function getSenderInfo(sender){
+function getSenderInfo(sender) {
 
     let url = 'https://graph.facebook.com/' + sender + '?access_token=' + token
     axios
         .get(url)
-        .then(({ data })=> {
+        .then(({data}) => {
 
             let first_name = data.first_name
             let last_name = data.last_name
@@ -111,30 +119,34 @@ function getSenderInfo(sender){
 
             sendText(sender, "Hej, " + first_name + ". \n")
         })
-        .catch((err)=> {})
+        .catch((err) => {
+        })
 
 }
 
 // Handling incoming messages
-app.post('/webhook/', function(req, res){
+app.post('/webhook/', function (req, res) {
     let messaging_events = req.body.entry[0].messaging
-    for(let i = 0; i < messaging_events.length; i++){
+    for (let i = 0; i < messaging_events.length; i++) {
         let event = messaging_events[i]
         let sender = event.sender.id
         let time = event.sender.timestamp
 
-        if(event.message && event.message.text){
+        if (event.message && event.message.text) {
 
-            let text = event.message.text.substring(0,100)
+            let text = event.message.text.substring(0, 300)
+            text.toLowerCase()
             let words = text.split(' ')
             let answer = ""
 
-            getSenderInfo(sender)
-            if(words[0] === "v"){
+            if (words[0] === "hej" || words[0] === "tja" || words[0] === "yo")
+                getSenderInfo(sender)
+            else if (words[0] === "v" || words[0] === "väder")
                 getWeather(sender)
-            }
+            else
+                sendText(sender, "Va? 8-)")
 
-            switch(words[0]){
+            switch (words[0]) {
                 case "happy":
                     answer += ":)"
                     break
@@ -165,26 +177,26 @@ app.post('/webhook/', function(req, res){
     res.sendStatus(200)
 })
 
-function sendText(sender, text){
+function sendText(sender, text) {
     let messageData = {text: text}
     request({
         url: "https://graph.facebook.com/v2.6/me/messages",
-        qs: {access_token : token},
+        qs: {access_token: token},
         method: "POST",
         json: {
             recipient: {id: sender},
             message: messageData
         }
-    }, function(error, response, body){
-        if(error){
+    }, function (error, response, body) {
+        if (error) {
             console.log("sending error")
-        } else if(response.body.error){
+        } else if (response.body.error) {
             console.log("response body error")
         }
     })
 }
 
-app.listen(app.get('port'), function(){
+app.listen(app.get('port'), function () {
     console.log("running: port")
 })
 
