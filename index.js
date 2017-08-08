@@ -93,7 +93,7 @@ function getWeather(sender){
 // Get user info
 function getSenderInfo(sender){
 
-    let path = 'https://graph.facebook.com/' + sender+ '?access_token=' + token
+    let url = 'https://graph.facebook.com/' + sender+ '?access_token=' + token
     axios
         .get(url)
         .then(({ data })=> {
