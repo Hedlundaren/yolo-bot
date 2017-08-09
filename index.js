@@ -43,7 +43,7 @@ app.get('/test/', function (req, res) {
             let space_people = '';
             space_people += 'Total: ' + data.number + '. '
             for (let i = 0; i < data.number; i++) {
-                space_people +=  (i+1) + '. ' + data.people[i].name + '\r'
+                space_people += (i + 1) + '. ' + data.people[i].name + '\r'
             }
             res.send(space_people)
 
@@ -53,16 +53,30 @@ app.get('/test/', function (req, res) {
 
 })
 
+
+function yesNoImageURL(sender) {
+    let url = 'https://yesno.wtf/api/'
+
+    axios
+        .get(url)
+        .then(({data}) => {
+
+            sendImage(sender, data.image)
+        })
+        .catch((err) => {
+        })
+}
+
 function inSpace(sender) {
     let url = 'http://api.open-notify.org/astros.json'
 
-        axios
+    axios
         .get(url)
         .then(({data}) => {
             let space_people = '';
-            space_people += 'Total: ' + data.number + '. '
+            space_people += 'Total: ' + data.number + '. \n'
             for (let i = 0; i < data.number; i++) {
-                space_people +=  (i+1) + '. ' + data.people[i].name + '\n'
+                space_people += (i + 1) + '. ' + data.people[i].name + '\n'
             }
             sendText(sender, space_people)
         })
@@ -89,7 +103,7 @@ function getJobs(sender) {
 
             let job_list = ""
             for (let i = 0; i < 10; i++) {
-                job_list +=  (i+1) + '. ' + data.positions[i].jobtype.name + '\n'
+                job_list += (i + 1) + '. ' + data.positions[i].jobtype.name + '\n'
             }
             sendText(sender, job_list)
         })
@@ -97,7 +111,7 @@ function getJobs(sender) {
         })
 }
 
-function getClosestBusStop(sender){
+function getClosestBusStop(sender) {
     let lat = 58.417467
     let lon = 15.51318
     let url = 'https://api.resrobot.se/v2/location.nearbystops?key=d3065482-2d49-42bf-abfc-28d7eb387ec1&originCoordLat=' + lat + '&originCoordLong=' + lon + '&format=json'
@@ -109,6 +123,7 @@ function getClosestBusStop(sender){
         .catch((err) => {
         })
 }
+
 function getWeather(sender) {
 
     58.586802, 16.180616
@@ -210,6 +225,8 @@ app.post('/webhook/', function (req, res) {
                 inSpace(sender)
             else if (words[0] === "bild")
                 sendImage(sender, "https://www.zoo.se/media/catalog/product/cache/2/image/9df78eab33525d08d6e5fb8d27136e95/k/a/kanin_utsida_3.jpg")
+            else if (words[0] === "yesno")
+                yesNoImageURL(sender)
             else
                 sendText(sender, "Va? 8-)")
 
