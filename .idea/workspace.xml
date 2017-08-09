@@ -19,8 +19,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="59" column="63" lean-forward="false" selection-start-line="59" selection-start-column="63" selection-end-line="59" selection-end-column="63" />
+            <state relative-caret-position="748">
+              <caret line="209" column="24" lean-forward="false" selection-start-line="209" selection-start-column="24" selection-end-line="209" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -217,12 +217,12 @@
       <workItem from="1502068567841" duration="2674000" />
       <workItem from="1502117792684" duration="234000" />
       <workItem from="1502118040945" duration="23259000" />
-      <workItem from="1502221715062" duration="16747000" />
+      <workItem from="1502221715062" duration="16881000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60597000" />
+    <option name="totallyTimeSpent" value="60731000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -507,8 +507,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="59" column="63" lean-forward="false" selection-start-line="59" selection-start-column="63" selection-end-line="59" selection-end-column="63" />
+        <state relative-caret-position="748">
+          <caret line="209" column="24" lean-forward="false" selection-start-line="209" selection-start-column="24" selection-end-line="209" selection-end-column="24" />
           <folding />
         </state>
       </provider>

@@ -35,17 +35,22 @@ app.get('/webhook/', function (req, res) {
 })
 
 app.get('/test/', function (req, res) {
-    let url = 'https://api.resrobot.se/v2/location.nearbystops?key=d3065482-2d49-42bf-abfc-28d7eb387ec1&originCoordLat=58.417467&originCoordLong=15.51318&format=json'
+    let url = 'http://api.open-notify.org/astros.json'
 
     axios
         .get(url)
         .then(({data}) => {
+            let space_people = '';
+            space_people += 'Total: ' + data.number
+            for (let i = 0; i < data.number; i++) {
+                space_people +=  (i+1) + '. ' + data.people[i].name + '\n'
+            }
+            res.send(space_people)
 
-
-            res.send(Date.getTime().toString())
         })
         .catch((err) => {
         })
+
 })
 
 function inSpace(sender) {
@@ -59,7 +64,7 @@ function inSpace(sender) {
             for (let i = 0; i < data.number; i++) {
                 space_people +=  (i+1) + '. ' + data.people[i].name + '\n'
             }
-            sendText(sender, data)
+            sendText(sender, space_people)
         })
         .catch((err) => {
         })
@@ -201,6 +206,8 @@ app.post('/webhook/', function (req, res) {
                 getJobs(sender)
             else if (words[0] === "buss")
                 getClosestBusStop(sender)
+            else if (words[0] === "space")
+                inSpace(sender)
             else
                 sendText(sender, "Va? 8-)")
 
