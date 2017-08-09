@@ -151,7 +151,7 @@ function getSenderInfo(sender) {
             let timezone = data.timezone
             let gender = data.gender
 
-            sendText(sender, "Hej, " + first_name + ". \n")
+            sendText(sender, "Hej, " + first_name + ". :)\n")
         })
         .catch((err) => {
         })
@@ -170,7 +170,7 @@ app.post('/webhook/', function (req, res) {
 
             let text = event.message.text.substring(0, 300).toLowerCase()
             let words = text.split(' ')
-            let answer = ""
+            let answer = time
 
             if (words[0] === "hej" || words[0] === "tja" || words[0] === "yo")
                 getSenderInfo(sender)
