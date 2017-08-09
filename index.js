@@ -41,9 +41,9 @@ app.get('/test/', function (req, res) {
         .get(url)
         .then(({data}) => {
             let space_people = '';
-            space_people += 'Total: ' + data.number
+            space_people += 'Total: ' + data.number + '. '
             for (let i = 0; i < data.number; i++) {
-                space_people +=  (i+1) + '. ' + data.people[i].name + '\n'
+                space_people +=  (i+1) + '. ' + data.people[i].name + '\r'
             }
             res.send(space_people)
 
@@ -60,7 +60,7 @@ function inSpace(sender) {
         .get(url)
         .then(({data}) => {
             let space_people = '';
-            space_people += 'Total: ' + data.number
+            space_people += 'Total: ' + data.number + '. '
             for (let i = 0; i < data.number; i++) {
                 space_people +=  (i+1) + '. ' + data.people[i].name + '\n'
             }
