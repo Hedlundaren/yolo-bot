@@ -208,6 +208,8 @@ app.post('/webhook/', function (req, res) {
                 getClosestBusStop(sender)
             else if (words[0] === "space")
                 inSpace(sender)
+            else if (words[0] === "bild")
+                sendImage(sender, "https://www.zoo.se/media/catalog/product/cache/2/image/9df78eab33525d08d6e5fb8d27136e95/k/a/kanin_utsida_3.jpg")
             else
                 sendText(sender, "Va? 8-)")
 
@@ -251,6 +253,31 @@ function sendText(sender, text) {
         json: {
             recipient: {id: sender},
             message: messageData
+        }
+    }, function (error, response, body) {
+        if (error) {
+            console.log("sending error")
+        } else if (response.body.error) {
+            console.log("response body error")
+        }
+    })
+}
+
+function sendImage(sender, imageURL) {
+    request({
+        url: "https://graph.facebook.com/v2.6/me/messages",
+        qs: {access_token: token},
+        method: "POST",
+        json: {
+            recipient: {id: sender},
+            message: {
+                attachment: {
+                    type: "image",
+                    payload: {
+                        url: imageURL
+                    }
+                }
+            }
         }
     }, function (error, response, body) {
         if (error) {
