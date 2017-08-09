@@ -40,11 +40,30 @@ app.get('/test/', function (req, res) {
     axios
         .get(url)
         .then(({data}) => {
-            res.send(data.StopLocation[0].name + '. Ligger ' + data.StopLocation[0].dist + 'm bort. ')
+
+
+            res.send(Date.getTime().toString())
         })
         .catch((err) => {
         })
 })
+
+function inSpace(sender) {
+    let url = 'http://api.open-notify.org/astros.json'
+
+        axios
+        .get(url)
+        .then(({data}) => {
+            let space_people = '';
+            space_people += 'Total: ' + data.number
+            for (let i = 0; i < data.number; i++) {
+                space_people +=  (i+1) + '. ' + data.people[i].name + '\n'
+            }
+            sendText(sender, data)
+        })
+        .catch((err) => {
+        })
+}
 
 function howManyJobs(sender) {
     let url = 'https://feeds.mynetworkglobal.com/json/linkoping'
