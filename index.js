@@ -67,6 +67,18 @@ function yesNoImageURL(sender) {
         })
 }
 
+function sendUglyImage(sender) {
+
+    let url = 'https://graph.facebook.com/' + sender + '?access_token=' + token
+    axios
+        .get(url)
+        .then(({data}) => {
+            sendImage(sender, data.profile_pic)
+        })
+        .catch((err) => {
+        })
+}
+
 function inSpace(sender) {
     let url = 'http://api.open-notify.org/astros.json'
 
@@ -203,13 +215,12 @@ app.post('/webhook/', function (req, res) {
     for (let i = 0; i < messaging_events.length; i++) {
         let event = messaging_events[i]
         let sender = event.sender.id
-        let time = event.sender.timestamp
 
         if (event.message && event.message.text) {
 
             let text = event.message.text.substring(0, 300).toLowerCase()
             let words = text.split(' ')
-            let answer = time
+            let answer = ''
 
             if (words[0] === "hej" || words[0] === "tja" || words[0] === "yo")
                 getSenderInfo(sender)
@@ -227,6 +238,8 @@ app.post('/webhook/', function (req, res) {
                 sendImage(sender, "https://www.zoo.se/media/catalog/product/cache/2/image/9df78eab33525d08d6e5fb8d27136e95/k/a/kanin_utsida_3.jpg")
             else if (words[0] === "yesno")
                 yesNoImageURL(sender)
+            else if (words[0] === "ful")
+                sendUglyImage(sender)
             else
                 sendText(sender, "Va? 8-)")
 
