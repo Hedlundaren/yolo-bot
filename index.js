@@ -35,17 +35,12 @@ app.get('/webhook/', function (req, res) {
 })
 
 app.get('/test/', function (req, res) {
-    let url = 'https://feeds.mynetworkglobal.com/json/linkoping'
+    let url = 'https://api.resrobot.se/v2/location.nearbystops?key=d3065482-2d49-42bf-abfc-28d7eb387ec1&originCoordLat=58.417467&originCoordLong=15.51318&format=json'
 
     axios
         .get(url)
         .then(({data}) => {
-
-            let job_list = ""
-            for (let i = 0; i < data.positions.length; i++) {
-                job_list += data.positions[i].jobtype.name + '\n'
-            }
-            res.send(job_list)
+            res.send(data.StopLocation[0].name + '. Ligger ' + data.StopLocation[0].dist + 'm bort. ')
         })
         .catch((err) => {
         })
@@ -56,7 +51,7 @@ function howManyJobs(sender) {
     axios
         .get(url)
         .then(({data}) => {
-            sendText(sender, data.positions.length.toString())
+            sendText(sender, data.positions.length.toString() + ' lediga jobb.')
         })
         .catch((err) => {
         })
@@ -78,6 +73,18 @@ function getJobs(sender) {
         })
 }
 
+function getClosestBusStop(sender){
+    let lat = 58.417467
+    let lon = 15.51318
+    let url = 'https://api.resrobot.se/v2/location.nearbystops?key=d3065482-2d49-42bf-abfc-28d7eb387ec1&originCoordLat=' + lat + '&originCoordLong=' + lon + '&format=json'
+    axios
+        .get(url)
+        .then(({data}) => {
+            sendText(sender, data.StopLocation[0].name + '. Ligger ' + data.StopLocation[0].dist + 'm bort. ')
+        })
+        .catch((err) => {
+        })
+}
 function getWeather(sender) {
 
     58.586802, 16.180616
@@ -94,7 +101,7 @@ function getWeather(sender) {
                 for (let i = 0; i < params.length; i++) {
                     if (params[i].name === "t") { // Temperature
                         temp = params[i].values[0]
-                        weather_message += "Just nu är det " + temp + " grader hemma.";
+                        weather_message += "Just nu är det " + temp + " grader hemma. ";
                     }
                 }
                 for (let i = 0; i < params.length; i++) {
@@ -173,6 +180,8 @@ app.post('/webhook/', function (req, res) {
                 howManyJobs(sender)
             else if (words[0] === "lista")
                 getJobs(sender)
+            else if (words[0] === "buss")
+                getClosestBusStop(sender)
             else
                 sendText(sender, "Va? 8-)")
 
