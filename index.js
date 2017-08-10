@@ -246,6 +246,8 @@ app.post('/webhook/', function (req, res) {
                 yesNoImageURL(sender)
             else if (words[0] === "ful")
                 sendUglyImage(sender)
+            else if (words[0] === "insp" || words[0] === "inspirera")
+                inspiringQuote(sender)
             else
                 sendText(sender, "Va? 8-)")
 
