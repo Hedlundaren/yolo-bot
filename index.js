@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const http = require('http')
 const axios = require('axios')
+const admin = require("firebase-admin");
 //var $ = require('jquery')
 
 // This makes it crash
@@ -35,24 +36,29 @@ app.get('/webhook/', function (req, res) {
 })
 
 app.get('/test/', function (req, res) {
-    let url = 'http://api.open-notify.org/astros.json'
 
+
+    let url = 'https://api.forismatic.com/api/1.0/?method=getQuote&format=json&jsonp=parseQuote&lang=en'
     axios
         .get(url)
         .then(({data}) => {
-            let space_people = '';
-            space_people += 'Total: ' + data.number + '. '
-            for (let i = 0; i < data.number; i++) {
-                space_people += (i + 1) + '. ' + data.people[i].name + '\r'
-            }
-            res.send(space_people)
-
+            res.send(data)
         })
         .catch((err) => {
         })
-
 })
 
+function inspiringQuote(sender) {
+    let url = 'https://api.forismatic.com/api/1.0/?method=getQuote&format=json&jsonp=parseQuote&lang=en'
+    axios
+        .get(url)
+        .then(({data}) => {
+            let sendText = data.quoteText + '\n-' + data.quoteAuthor
+            res.send(sendText)
+        })
+        .catch((err) => {
+        })
+}
 
 function yesNoImageURL(sender) {
     let url = 'https://yesno.wtf/api/'
@@ -273,6 +279,12 @@ app.post('/webhook/', function (req, res) {
     }
     res.sendStatus(200)
 })
+
+
+function httpRequest() {
+
+
+}
 
 function sendText(sender, text) {
     let messageData = {text: text}
