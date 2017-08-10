@@ -53,8 +53,8 @@ function inspiringQuote(sender) {
     axios
         .get(url)
         .then(({data}) => {
-            let sendText = data.quoteText + '\n-' + data.quoteAuthor
-            res.send(sendText)
+            let text= data.quoteText + '\n-' + data.quoteAuthor
+            sendText(text, sender)
         })
         .catch((err) => {
         })
