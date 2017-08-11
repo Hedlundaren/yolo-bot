@@ -153,9 +153,9 @@ function getJobs(sender) {
 
             let job_list = ""
             for (let i = 0; i < data.positions.length; i++) {
-                job_list += (i + 1) + '. ' + data.positions[i].jobtype.name + '\n'
+                job_list += '🚩' + data.positions[i].jobtype.name + '\n'
             }
-            sendText(sender, text.substring(0, 640))
+            sendText(sender, text.substring(0, 620))
 
         })
         .catch((err) => {
