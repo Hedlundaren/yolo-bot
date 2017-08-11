@@ -73,7 +73,7 @@ function eniro(sender, search) {
                 text += data.adverts[i].address.streetName + '\n'
                 if(data.adverts[i].phoneNumbers.length > 0)
                     text += data.adverts[i].phoneNumbers[0].phoneNumber + '\n'
-                else text += 'Saknar telefon.'
+                else text += 'Saknar telefon.\n'
             }
             sendText(sender, text.substring(0, 620))
 
