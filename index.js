@@ -36,18 +36,48 @@ app.get('/webhook/', function (req, res) {
 })
 
 app.get('/test/', function (req, res) {
-
-
-    let url = 'https://api.forismatic.com/api/1.0/?method=getQuote&format=json&jsonp=parseQuote&lang=en'
+    let profile = 'Hedlundaren'
+    let key = '6958719642243260042'
+    let search = 'clas'
+    let url = 'https://api.eniro.com/cs/search/basic?profile=' + profile + '&key=' + key + '&country=se&version=1.1.3&search_word=' + search + '&geo_area=linkoping'
+    let text = ''
     axios
         .get(url)
         .then(({data}) => {
-            let text = data.quoteText + '\n-' + data.quoteAuthor
+            text += 'Totalt: ' + data.adverts.length.toString() + '.\n'
+
+            for (let i = 0; i < data.adverts.length; i++) {
+                //res.send(data.adverts.length.toString())
+                text += data.adverts[i].companyInfo.companyName + ', ' + data.adverts[i].address.streetName + ', ' + data.adverts[i].phoneNumbers[0].phoneNumber + '\n'
+            }
             res.send(text)
+
         })
         .catch((err) => {
         })
 })
+
+function eniro(sender, search) {
+    let profile = 'Hedlundaren'
+    let key = '6958719642243260042'
+    let search = 'clas'
+    let url = 'https://api.eniro.com/cs/search/basic?profile=' + profile + '&key=' + key + '&country=se&version=1.1.3&search_word=' + search + '&geo_area=linkoping'
+    let text = ''
+    axios
+        .get(url)
+        .then(({data}) => {
+            text += 'Totalt: ' + data.adverts.length.toString() + '.\n'
+
+            for (let i = 0; i < data.adverts.length; i++) {
+                //res.send(data.adverts.length.toString())
+                text += data.adverts[i].companyInfo.companyName + ', ' + data.adverts[i].address.streetName + ', ' + data.adverts[i].phoneNumbers[0].phoneNumber + '\n'
+            }
+            sendText(sender, text)
+
+        })
+        .catch((err) => {
+        })
+}
 
 function inspiringQuote(sender) {
     let url = 'https://api.forismatic.com/api/1.0/?method=getQuote&format=json&jsonp=parseQuote&lang=en'
@@ -95,7 +125,7 @@ function inSpace(sender) {
         .get(url)
         .then(({data}) => {
             let space_people = '';
-            space_people += 'Total: ' + data.number + '. \n'
+            space_people += 'Totalt: ' + data.number + '. \n'
             for (let i = 0; i < data.number; i++) {
                 space_people += (i + 1) + '. ' + data.people[i].name + '\n'
             }
@@ -251,6 +281,8 @@ app.post('/webhook/', function (req, res) {
                 sendUglyImage(sender)
             else if (words[0] === "insp" || words[0] === "inspirera")
                 inspiringQuote(sender)
+            else if (words[0] === "e" || words[0] === "eniro")
+                eniro(sender, words[1])
             else
                 sendText(sender, "Va? 8-)")
 
