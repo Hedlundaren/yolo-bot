@@ -71,7 +71,7 @@ function eniro(sender, search) {
                 //res.send(data.adverts.length.toString())
                 text += '🚩 ' + data.adverts[i].companyInfo.companyName + ', ' + data.adverts[i].address.streetName + ', ' + data.adverts[i].phoneNumbers[0].phoneNumber + '\n'
             }
-            sendText(sender, text.substring(0, 620))
+            sendText(sender, text.substring(0, 500))
 
         })
         .catch((err) => {
