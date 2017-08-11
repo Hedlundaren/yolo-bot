@@ -59,8 +59,11 @@ function eniro(sender, search) {
             text += 'Totalt: ' + data.adverts.length.toString() + 'st\n'
             for (let i = 0; i < data.adverts.length; i++) {
                 text += (i + 1) + '. 🏯 \n' + data.adverts[i].companyInfo.companyName + '\n'
-                text += data.adverts[i].address.streetName + '\n'
-                if(data.adverts[i].phoneNumbers.length > 0)
+                if (!data.adverts[i].address.streetName || data.adverts[i].address.streetName === ' ')
+                    text += 'Saknar gatuadress.\n'
+                else
+                    text += data.adverts[i].address.streetName + '\n'
+                if (data.adverts[i].phoneNumbers.length > 0 || data.adverts[i].phoneNumbers[0] === ' ')
                     text += data.adverts[i].phoneNumbers[0].phoneNumber + '\n'
                 else text += 'Saknar telefon.\n'
             }
@@ -76,7 +79,7 @@ function inspiringQuote(sender) {
         .get(url)
         .then(({data}) => {
             let text = ''
-            if(data.quoteAuthor) text += data.quoteText + '\n-' + data.quoteAuthor
+            if (data.quoteAuthor) text += data.quoteText + '\n-' + data.quoteAuthor
             else text += data.quoteText + '\n-Unknown'
             sendText(sender, text)
         })
