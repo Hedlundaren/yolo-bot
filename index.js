@@ -49,7 +49,7 @@ function eniro(sender, search) {
         .then(({data}) => {
             text += 'Totalt: ' + data.adverts.length.toString() + 'st\n'
             for (let i = 0; i < data.adverts.length; i++) {
-                text += (i + 1) + '. 🌈 \n' + data.adverts[i].companyInfo.companyName + '\n'
+                text += (i + 1) + '. 🌈🏠 \n' + data.adverts[i].companyInfo.companyName + '\n'
                 text += data.adverts[i].address.streetName + '\n'
                 if(data.adverts[i].phoneNumbers.length > 0)
                     text += data.adverts[i].phoneNumbers[0].phoneNumber + '\n'
