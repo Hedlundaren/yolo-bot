@@ -69,7 +69,7 @@ function eniro(sender, search) {
 
             for (let i = 0; i < data.adverts.length; i++) {
                 //res.send(data.adverts.length.toString())
-                text += (i + 1) + '. ' + data.adverts[i].companyInfo.companyName + ', ' + data.adverts[i].address.streetName + ', ' + data.adverts[i].phoneNumbers[0].phoneNumber + '\n'
+                text += '🚩 ' + data.adverts[i].companyInfo.companyName + ', ' + data.adverts[i].address.streetName + ', ' + data.adverts[i].phoneNumbers[0].phoneNumber + '\n'
             }
             sendText(sender, text.substring(0, 620))
 
@@ -153,9 +153,9 @@ function getJobs(sender) {
 
             let job_list = ""
             for (let i = 0; i < data.positions.length; i++) {
-                job_list += '🚩' + data.positions[i].jobtype.name + '\n'
+                job_list += (i + 1) + '. ' + data.positions[i].jobtype.name + '\n'
             }
-            sendText(sender, text.substring(0, 620))
+            sendText(sender, job_list.substring(0, 620))
 
         })
         .catch((err) => {
