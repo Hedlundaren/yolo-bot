@@ -6,7 +6,7 @@ const request = require('request')
 const http = require('http')
 const axios = require('axios')
 const admin = require("firebase-admin");
-//var $ = require('jquery')
+const websearch = require("./websearch.js");
 
 // This makes it crash
 //const XMLHttpRequest = require("./xmlhttprequest").XMLHttpRequest
@@ -36,25 +36,7 @@ app.get('/webhook/', function (req, res) {
 })
 
 app.get('/test/', function (req, res) {
-    let profile = 'Hedlundaren'
-    let key = '6958719642243260042'
-    let search = 'clas'
-    let url = 'https://api.eniro.com/cs/search/basic?profile=' + profile + '&key=' + key + '&country=se&version=1.1.3&search_word=' + search + '&geo_area=linkoping'
-    let text = ''
-    axios
-        .get(url)
-        .then(({data}) => {
-            text += 'Totalt: ' + data.adverts.length.toString() + '.\n'
-
-            for (let i = 0; i < data.adverts.length; i++) {
-                //res.send(data.adverts.length.toString())
-                text += data.adverts[i].companyInfo.companyName + ', ' + data.adverts[i].address.streetName + ', ' + data.adverts[i].phoneNumbers[0].phoneNumber + '\n'
-            }
-            res.send(text)
-
-        })
-        .catch((err) => {
-        })
+    res.send(websearch.test())
 })
 
 function eniro(sender, search) {
@@ -66,9 +48,7 @@ function eniro(sender, search) {
         .get(url)
         .then(({data}) => {
             text += 'Totalt: ' + data.adverts.length.toString() + 'st\n'
-
             for (let i = 0; i < data.adverts.length; i++) {
-                //res.send(data.adverts.length.toString())
                 text += (i + 1) + '. 🌈 \n' + data.adverts[i].companyInfo.companyName + '\n'
                 text += data.adverts[i].address.streetName + '\n'
                 if(data.adverts[i].phoneNumbers.length > 0)
@@ -76,7 +56,6 @@ function eniro(sender, search) {
                 else text += 'Saknar telefon.\n'
             }
             sendText(sender, text.substring(0, 620))
-
         })
         .catch((err) => {
         })
@@ -249,7 +228,6 @@ function getSenderInfo(sender) {
         })
         .catch((err) => {
         })
-
 }
 
 // Handling incoming messages
@@ -269,6 +247,8 @@ app.post('/webhook/', function (req, res) {
                 getSenderInfo(sender)
             else if (words[0] === "v" || words[0] === "väder")
                 getWeather(sender)
+            else if (words[0] === "vgd")
+                sendText(sender, "Hänger, sj?")
             else if (words[0] === "jobb")
                 howManyJobs(sender)
             else if (words[0] === "lista")
