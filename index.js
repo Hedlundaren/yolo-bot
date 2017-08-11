@@ -248,7 +248,7 @@ app.post('/webhook/', function (req, res) {
             else if (words[0] === "v" || words[0] === "väder")
                 getWeather(sender)
             else if (words[0] === "vgd")
-                sendText(sender, "Hänger, sj?")
+                sendText(sender, "Inget, sj? 🐣")
             else if (words[0] === "jobb")
                 howManyJobs(sender)
             else if (words[0] === "lista")
