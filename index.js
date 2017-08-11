@@ -42,7 +42,8 @@ app.get('/test/', function (req, res) {
     axios
         .get(url)
         .then(({data}) => {
-            res.send(data)
+            let text = data.quoteText + '\n-' + data.quoteAuthor
+            res.send(text)
         })
         .catch((err) => {
         })
@@ -53,8 +54,10 @@ function inspiringQuote(sender) {
     axios
         .get(url)
         .then(({data}) => {
-            let text= data.quoteText + '\n-' + data.quoteAuthor
-            sendText(text, sender)
+            let text = ''
+            if(data.quoteAuthor) text += data.quoteText + '\n-' + data.quoteAuthor
+            else text += data.quoteText + '\n-Unknown'
+            sendText(sender, text)
         })
         .catch((err) => {
         })
