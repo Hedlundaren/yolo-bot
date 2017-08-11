@@ -70,7 +70,9 @@ function eniro(sender, search) {
             for (let i = 0; i < data.adverts.length; i++) {
                 //res.send(data.adverts.length.toString())
                 text += (i + 1) + '. 🌈 \n' + data.adverts[i].companyInfo.companyName + '\n'
-                text += data.adverts[i].address.streetName + '\n'
+                if(data.adverts[i].address.streetName)
+                    text += data.adverts[i].address.streetName + '\n'
+                else else text += 'Saknar gatuadress.\n'
                 if(data.adverts[i].phoneNumbers.length > 0)
                     text += data.adverts[i].phoneNumbers[0].phoneNumber + '\n'
                 else text += 'Saknar telefon.\n'
