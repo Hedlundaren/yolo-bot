@@ -69,11 +69,11 @@ function eniro(sender, search) {
 
             for (let i = 0; i < data.adverts.length; i++) {
                 //res.send(data.adverts.length.toString())
-                text += '🚩 ' + data.adverts[i].companyInfo.companyName + ', '
-                text += data.adverts[i].address.streetName + ', '
+                text += '🚩 \n' + (i + 1) + data.adverts[i].companyInfo.companyName + '\n'
+                text += data.adverts[i].address.streetName + '\n'
                 if(data.adverts[i].phoneNumbers.length > 0)
                     text += data.adverts[i].phoneNumbers[0].phoneNumber + '\n'
-                else text += 'No phone'
+                else text += 'Saknar telefon.'
             }
             sendText(sender, text.substring(0, 620))
 
