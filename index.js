@@ -60,7 +60,6 @@ app.get('/test/', function (req, res) {
 function eniro(sender, search) {
     let profile = 'Hedlundaren'
     let key = '6958719642243260042'
-    let search = 'clas'
     let url = 'https://api.eniro.com/cs/search/basic?profile=' + profile + '&key=' + key + '&country=se&version=1.1.3&search_word=' + search + '&geo_area=linkoping'
     let text = ''
     axios
