@@ -65,13 +65,13 @@ function eniro(sender, search) {
     axios
         .get(url)
         .then(({data}) => {
-            text += 'Totalt: ' + data.adverts.length.toString() + '.\n'
+            text += 'Totalt: ' + data.adverts.length.toString() + 'st\n'
 
             for (let i = 0; i < data.adverts.length; i++) {
                 //res.send(data.adverts.length.toString())
-                text += data.adverts[i].companyInfo.companyName + ', ' + data.adverts[i].address.streetName + ', ' + data.adverts[i].phoneNumbers[0].phoneNumber + '\n'
+                text += (i + 1) + '. ' + data.adverts[i].companyInfo.companyName + ', ' + data.adverts[i].address.streetName + ', ' + data.adverts[i].phoneNumbers[0].phoneNumber + '\n'
             }
-            sendText(sender, text)
+            sendText(sender, text.substring(0, 640))
 
         })
         .catch((err) => {
@@ -124,7 +124,7 @@ function inSpace(sender) {
         .get(url)
         .then(({data}) => {
             let space_people = '';
-            space_people += 'Totalt: ' + data.number + '. \n'
+            space_people += 'Totalt: ' + data.number + 'st \n'
             for (let i = 0; i < data.number; i++) {
                 space_people += (i + 1) + '. ' + data.people[i].name + '\n'
             }
@@ -152,10 +152,11 @@ function getJobs(sender) {
         .then(({data}) => {
 
             let job_list = ""
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < data.positions.length; i++) {
                 job_list += (i + 1) + '. ' + data.positions[i].jobtype.name + '\n'
             }
-            sendText(sender, job_list)
+            sendText(sender, text.substring(0, 640))
+
         })
         .catch((err) => {
         })
