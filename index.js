@@ -264,7 +264,7 @@ app.post('/webhook/', function (req, res) {
             else if (words[0] === "käften" || words[0] === "håll")
                 sendText(sender, "Amen durå!")
             else if ((words[0] === "vart" || words[0] === "var") && (words[1] === "är" || words[1] === "e") && (words[2] === "simon" || words[2] === "simon?"))
-                sendText(sender, "Hos din mamma")
+                sendText(sender, "Hos din mamma💃")
             else if (words[0] === "jobb")
                 howManyJobs(sender)
             else if (words[0] === "lista")
