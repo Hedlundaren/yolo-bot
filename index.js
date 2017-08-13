@@ -289,7 +289,7 @@ app.post('/webhook/', function (req, res) {
                 sendUglyImage(sender)
             else if (words[0] === "insp" || words[0] === "inspirera")
                 inspiringQuote(sender)
-            else if (words[0] === "e" || words[0] === "eniro")
+            else if (words[0] === "e" || words[0] === "eniro" || words[0] === "sök")
                 eniro(sender, words[1])
             else
                 sendText(sender, "Va? 8-)")
